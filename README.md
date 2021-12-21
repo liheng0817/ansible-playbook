@@ -8,3 +8,7 @@ ansible-playbook -i host nginx.yml
 ansible-playbook -i host tomcat8.yml
 # Install jdk
 ansible-playbook -i host jdk.yml
+# Install zabbix-agent
+ansible-playbook -i host install-zabbix-agentd.yml
+# Auto Parted
+ansible-playbook -i host auto_parted.yml
