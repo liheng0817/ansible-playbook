@@ -1,0 +1,5 @@
+---
+- hosts: mount
+  remote_user: root
+  roles:
+  - parted_mount 

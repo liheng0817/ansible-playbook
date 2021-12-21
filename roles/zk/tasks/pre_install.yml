@@ -1,0 +1,47 @@
+---
+ 
+- name: "1、创建{{ group }}组"
+  group:
+    name: "{{ group }}"
+    system: yes
+    state: present
+
+- name: "2、创建{{ user }}用户"
+  user:
+    name: "{{ user }}"
+    group: "{{ group }}"
+    shell: /bin/bash
+
+- name: "3、拷贝{{soft_name}}安装包"
+  copy:
+    src: "apache-zookeeper-3.6.1-bin.tar.gz"
+    dest: "/tmp"
+
+- name: "4、创建安装目录"
+  file:
+    path: "{{ install_path }}"
+    owner: "{{ user}}"
+    group: "{{ group }}"
+    recurse: yes
+    state: directory
+
+- name: "5、解压{{soft_name}}源码包"
+  unarchive:
+    src: "/tmp/apache-zookeeper-3.6.1-bin.tar.gz"
+    dest: "{{ install_path }}"
+    remote_src: yes
+
+- name: "6、改变安装目录"
+  shell: mv {{ install_path }}/apache-zookeeper-3.6.1-bin {{ install_path }}/{{ soft_name }}
+
+
+- name: "7、初始化{{soft_name}}安装目录"
+  file:
+    path: "{{ item }}"
+    owner: "{{ user}}"
+    group: "{{ group }}"
+    recurse: yes 
+    state: directory
+  with_items:
+    - "{{ install_path }}/{{ soft_name }}/data"
+    - "{{ install_path }}/{{ soft_name }}/logs"

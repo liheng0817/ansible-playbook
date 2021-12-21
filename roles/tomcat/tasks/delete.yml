@@ -1,0 +1,5 @@
+---
+- name: "5、删除临时文件"
+  file:
+    path: '/tmp/apache-tomcat-8.5.64.tar.gz'
+    state: absent

@@ -1,0 +1,17 @@
+---
+- name: Obtain "{{ DEVICE }} status"
+  shell: AAA=$(fdisk -l 2> /dev/null |grep -o "{{ DEVICE }}");echo $?
+  register: device_status
+
+- name: Print device_status
+  debug:
+    msg: "{{ device_status }}"
+
+- name: Obtain "{{ DEVICE_PART }}" status
+  shell: BBB=$(lsblk -p |grep -o "{{ DEVICE_PART }}");echo $?
+  register: device_part_status
+
+
+- name: Print device_part_status
+  debug:
+    msg: "{{ device_part_status }}"

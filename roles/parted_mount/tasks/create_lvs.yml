@@ -1,0 +1,11 @@
+---
+- name: Create a volume group on "{{ DEVICE_PART }}"
+  lvg:
+    vg: "{{ VGNAME }}"
+    pvs: "{{ DEVICE_PART }}"
+
+- name: Create a logical volume
+  lvol:
+    vg: "{{ VGNAME }}"
+    lv: "{{ LVNAME }}"
+    size: "{{ LVSIZE }}"

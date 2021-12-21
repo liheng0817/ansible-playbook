@@ -1,0 +1,6 @@
+---
+- name: "2、解压源码包"
+  unarchive:
+    src: "/tmp/apache-tomcat-8.5.64.tar.gz"
+    dest: "/opt/"
+    remote_src: yes

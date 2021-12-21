@@ -1,0 +1,3 @@
+---
+- name: "11、打印状态"
+  debug: var=ststus.stdout_lines

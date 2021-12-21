@@ -1,0 +1,6 @@
+---
+- name: "2、解压{{soft_name}}源码包"
+  unarchive:
+    src: "/tmp/jdk-8u281-linux-x64.tar.gz"
+    dest: "{{ jdk_install_path }}"
+    remote_src: yes

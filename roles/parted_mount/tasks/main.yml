@@ -1,0 +1,8 @@
+---
+- import_tasks: device_status.yml
+- import_tasks: parted.yml
+  when: device_status.stdout == "0" and device_part_status.stdout != "0"
+- import_tasks: create_lvs.yml
+  when: device_status.stdout == "0" and device_part_status.stdout != "0"
+- import_tasks: mount_lvs.yml 
+  when: device_status.stdout == "0" and device_part_status.stdout != "0"

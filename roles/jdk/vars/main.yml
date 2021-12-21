@@ -1,0 +1,3 @@
+soft_name: jdk
+jdk_install_path: /opt/payment/soft
+jdk_link: jdk1.8

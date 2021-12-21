@@ -1,0 +1,10 @@
+---
+DEVICE: "/dev/vdb"
+DEVICE_PART: "/dev/vdb1"
+PART_START: "0%"
+PART_END: "100%"
+VGNAME: "vgdata"
+LVNAME: "lvdata"
+LVSIZE: "100%FREE"
+FSTYPE: "xfs"
+MOUNT_PATH: "/opt"

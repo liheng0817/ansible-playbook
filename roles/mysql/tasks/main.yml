@@ -1,0 +1,5 @@
+---
+# - import_tasks: pre_install.yml
+ - import_tasks: add_user.yml
+ - import_tasks: install_mysql.yml
+ - import_tasks: change_slave_to_master.yml

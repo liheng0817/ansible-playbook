@@ -1,0 +1,9 @@
+---
+- name: "1、拷贝{{soft_name}}安装包"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - { src: "jdk-8u281-linux-x64.tar.gz",dest: "/tmp/" }
+    - { src: "jdk.sh",dest: "/etc/profile.d/" }

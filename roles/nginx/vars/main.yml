@@ -1,0 +1,12 @@
+---
+install_path: /opt/payment/soft
+user: "nginx"
+group: "nginx"
+soft_name: "nginx"
+ng_version: "1.8.0"
+ssl_version: "1.0.1h"
+pcre_version: "8.12"
+zlib_version: "1.2.11"
+ngport: "80"
+server_name: "www.abc.com"
+root_dir: "/web"

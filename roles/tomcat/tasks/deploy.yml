@@ -1,0 +1,5 @@
+---
+- name: "1、拷贝安装包"
+  copy:
+    src: "apache-tomcat-8.5.64.tar.gz"
+    dest: "/tmp/"

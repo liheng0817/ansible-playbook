@@ -1,0 +1,7 @@
+---
+- name: "3、建立{{soft_name}}软链接"
+  file:
+    src: /opt/jdk1.8.0_281
+    dest: "{{ jdk_install_path }}/{{ jdk_link }}"
+    state: link
+

@@ -1,0 +1,10 @@
+---
+- name: Create a new primary partition for "{{ DEVICE }}"
+  parted:
+    device: "{{ DEVICE }}"
+    number: 1
+    flags: [ lvm ]
+    part_start: "{{ PART_START }}"
+    part_end: "{{ PART_END }}"
+#    part_end: 20GiB
+    state: present

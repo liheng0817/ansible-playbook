@@ -1,0 +1,34 @@
+---
+- name: "5、安装{{soft_name}}"
+  shell: cd {{ install_path }}/nginx-{{ ng_version }} && ./configure --prefix={{ install_path }}/nginx --with-pcre={{ install_path }}/pcre-{{ pcre_version }} --with-openssl={{ install_path }}/openssl-{{ ssl_version }} --with-zlib={{ install_path }}/zlib-{{ zlib_version }} --with-http_stub_status_module --with-http_ssl_module --user={{ user }} --group={{ group }} && make && make install
+
+- name: "6、拷贝{{soft_name}}配置文件"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "nginx.conf.j2",dest: "{{ install_path }}/nginx/conf/nginx.conf"}
+
+- name: "7、拷贝{{soft_name}}启动脚本"
+  copy: src="nginx.service" dest="/usr/lib/systemd/system/nginx.service"
+
+- name: "8、启动{{soft_name}}"
+  service: name=nginx state=started
+
+- name: "9、删除临时文件"
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+   - /tmp/nginx-{{ ng_version }}.tar.gz
+   - /tmp/openssl-{{ ssl_version }}.tar.gz
+   - /tmp/pcre-{{ pcre_version }}.tar.gz
+   - /tmp/zlib-{{ zlib_version }}.tar.gz  
+   - "{{ install_path }}/nginx-{{ ng_version }}"
+
+- name: "10、获取{{soft_name}}状态"
+  command: systemctl status nginx
+  register: status
+
+- name: "11、打印{{soft_name}}状态"
+  debug: var=status.stdout_lines

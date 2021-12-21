@@ -1,0 +1,16 @@
+---
+- name: Create a xfs filesystem on logical volume "{{ LVNAME }}"
+  filesystem:
+    fstype: "{{ FSTYPE }}"
+    dev: /dev/{{ VGNAME }}/{{ LVNAME }}
+
+- name: Mount up logical volume "{{ LVNAME }}"
+  mount:
+    path: "{{ MOUNT_PATH }}"
+    src: /dev/{{ VGNAME }}/{{ LVNAME }}
+    fstype: "{{ FSTYPE }}"
+    state: present
+
+
+- name: enable mount
+  shell: mount -a

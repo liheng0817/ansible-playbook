@@ -1,0 +1,7 @@
+---
+- hosts: zk
+  remote_user: root
+
+  roles:
+    - jdk
+    - zk

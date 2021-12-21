@@ -1,0 +1,13 @@
+#Soft Name
+soft_name: zookeeper
+#Install Path
+install_path: /opt/payment/soft
+# Zk user
+user: weblogic
+group: weblogic
+#Zk Port
+leader_port: 12888
+vote_port: 13888
+client_port: 12181
+# Zk Host
+zk_hosts: zk

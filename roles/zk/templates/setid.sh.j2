@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+{% for ip in groups[zk_hosts] %}
+{% if ip == inventory_hostname %}
+echo {{ loop.index - 1 }} > {{ install_path }}/{{ soft_name }}/data/myid
+{% endif %}
+{% endfor %}

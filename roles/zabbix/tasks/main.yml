@@ -1,0 +1,91 @@
+---
+- name: 安装依赖
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - gcc
+    - libselinux-python
+
+- name: 开始拷贝源码包
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "zabbix-3.0.28.tar.gz", dest: "/tmp/zabbix-3.0.28.tar.gz" }
+
+- name: 开始解压源码包
+  unarchive:
+     src: "/tmp/zabbix-3.0.28.tar.gz"
+     dest: "/tmp"
+     copy: no
+
+- name: 创建zabbix组
+  group:
+    name: zabbix
+    gid: 201
+    system: yes
+    state: present
+
+- name: 创建zabbix用户
+  user:
+    name: zabbix
+    comment: Monitor User
+    uid: 201
+    group: zabbix
+    shell: /sbin/nologin
+
+- name: 开始安装zabbix客户端
+  shell: cd /tmp/zabbix-3.0.28 && ./configure --sysconfdir=/etc/zabbix/ --sbindir=/usr/local/sbin/ --enable-agent && make && make install && chown -R zabbix:zabbix /etc/zabbix
+
+- name: 上传自动发现端口文件
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+    group: zabbix
+    owner: zabbix
+  with_items:
+    - { src: "port", dest: "/etc/zabbix/port" }
+    - { src: "port.sh", dest: "/etc/zabbix/port.sh" }
+
+
+- name: 拷贝centos6启动脚本
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0755
+  with_items:
+    - { src: "zabbix_agentd", dest: "/etc/init.d/zabbix_agentd" }
+  when: ansible_distribution_major_version == "6"
+
+- name: 拷贝centos7启动脚本
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: "zabbix_agentd.service", dest: "/lib/systemd/system/zabbix_agentd.service" }
+  when: ansible_distribution_major_version == "7"
+
+- name: systemctl daemon-reload
+  command: systemctl daemon-reload
+  when: ansible_distribution_major_version == "7"
+
+- name: 拷贝配置文件
+  template:
+    src: zabbix_agentd.conf.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+
+- name: restart zabbix-agent
+  service: name=zabbix_agentd state=restarted enabled=yes
+
+- name: 获取 zabbix 客户端探针状态
+  command: systemctl status zabbix_agentd 
+  register: zabbix_agentd_status
+
+
+- name: 打印 zabbix 客户端状态
+  debug:
+    msg: "{{ zabbix_agentd_status.stdout }}"

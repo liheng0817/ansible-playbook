@@ -1,0 +1,13 @@
+---
+mysql_version: mysql-5.7.33-linux-glibc2.12-x86_64
+mysql_install_path: /opt/data/mysql_data
+mysql_link: mysql
+mysql_sock: /tmp/mysql.sock
+mysql_port: 33306
+mysql_root_passwd: "Root_123^"
+#master_ip: 172.17.252.1
+#slave_ip: 172.17.252.2
+repl_user: repl
+repl_passwd: "Repl_123^"
+user: mysql
+group: mysql

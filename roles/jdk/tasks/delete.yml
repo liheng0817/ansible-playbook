@@ -1,0 +1,5 @@
+---
+- name: "5、删除临时文件"
+  file:
+    path: '/tmp/jdk-8u281-linux-x64.tar.gz'
+    state: absent

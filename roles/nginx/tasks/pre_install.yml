@@ -1,0 +1,33 @@
+---
+- name: "1、创建{{ group }}组"
+  group:
+    name: "{{ group }}"
+    system: yes
+    state: present
+
+- name: "2、创建nginx用户"
+  user:
+    name: "{{ user }}"
+    group: "{{ group }}"
+    shell: /sbin/nologin
+
+- name: "3、拷贝{{soft_name}}安装包"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "nginx-{{ ng_version }}.tar.gz",dest: "/tmp/nginx-{{ ng_version }}.tar.gz" }
+    - { src: "openssl-{{ ssl_version }}.tar.gz",dest: "/tmp/openssl-{{ ssl_version }}.tar.gz" }
+    - { src: "pcre-{{ pcre_version }}.tar.gz",dest: "/tmp/pcre-{{ pcre_version }}.tar.gz" }
+    - { src: "zlib-{{ zlib_version }}.tar.gz",dest: "/tmp/zlib-{{ zlib_version }}.tar.gz" }
+
+- name: "4、解压{{soft_name}}源码包"
+  unarchive:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - { src: "/tmp/nginx-{{ ng_version }}.tar.gz",dest: "{{ install_path }}"}
+    - { src: "/tmp/openssl-{{ ssl_version }}.tar.gz",dest: "{{ install_path }}"}
+    - { src: "/tmp/pcre-{{ pcre_version }}.tar.gz",dest: "{{ install_path }}"}
+    - { src: "/tmp/zlib-{{ zlib_version }}.tar.gz",dest: "{{ install_path }}"}

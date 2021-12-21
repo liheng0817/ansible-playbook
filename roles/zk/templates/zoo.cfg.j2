@@ -1,0 +1,11 @@
+tickTime=2000
+initLimit=100
+syncLimit=10
+clientPort={{ client_port }}
+maxClientCnxns=10000
+dataDir={{ install_path }}/{{ soft_name }}/data
+dataLogDir={{ install_path }}/{{ soft_name }}/logs
+
+{% for ip in groups[zk_hosts] %}
+server.{{ loop.index - 1 }}={{ ip }}:{{ leader_port }}:{{vote_port }}
+{% endfor %}

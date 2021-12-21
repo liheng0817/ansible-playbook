@@ -1,0 +1,4 @@
+---
+- name: "10、获取状态"
+  command: systemctl status nginx
+  register: ststus

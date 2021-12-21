@@ -1,0 +1,6 @@
+---
+ - import_tasks: copy.yml
+ - import_tasks: unarchive.yml
+ - import_tasks: link.yml
+ - import_tasks: source.yml
+ - import_tasks: delete.yml
